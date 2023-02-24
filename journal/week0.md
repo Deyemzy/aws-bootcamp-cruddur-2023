@@ -1,6 +1,6 @@
 # Week 0 — Billing and Architecture
 
-# Prequisites
+# Prerequisite
 
 Created new AWS Account for the Bootcamp. Added the account to AWS Organization and enabled AWS IAM Identity Center (successor to AWS Single sign on)
 
