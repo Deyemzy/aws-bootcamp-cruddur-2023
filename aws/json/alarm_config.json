@@ -1,13 +1,13 @@
 {
-  "AlarmName": "MonthlyEstimatedCharges",
-  "AlarmDescription": "This alarm would be triggered if the daily estimated charges exceeds $5",
+  "AlarmName": "dailyEstimatedCharges",
+  "AlarmDescription": "This alarm would be triggered if the daily estimated charges exceeds $1",
   "ActionsEnabled": true,
   "AlarmActions": [
       "arn:aws:sns:us-east-1:my-account-id:Deyemzy-billing-alarm"
   ],
   "EvaluationPeriods": 1,
   "DatapointsToAlarm": 1,
-  "Threshold": 5,
+  "Threshold": 1,
   "ComparisonOperator": "GreaterThanOrEqualToThreshold",
   "TreatMissingData": "breaching",
   "Metrics": [{
