@@ -163,8 +163,24 @@ The C4 model for visualising software architecture
 
 I placed the CDN in front of the load balancer to help improve the performance and availability of a web application by allowing the CDN to serve cached static content directly to users, reducing the load on the load balancer and the origin server. This can improve the response time and reduce the latency for users accessing the static content, resulting in a better user experience. Additionally, the CDN can provide additional security benefits, such as protection against DDoS attacks and other security threats, by filtering out malicious traffic before it reaches the load balancer or origin server.
 
+## 4. Installing AWS CLI
 
-## Created an Admin user, generated AWS Access Key pair and also used the AWS Cloudshell
+```
+tasks:
+  - name: aws-cli
+    env:
+      AWS_CLI_AUTO_PROMPT: on-partial
+    init: |
+      cd /workspace
+      curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+      unzip awscliv2.zip
+      sudo ./aws/install
+      cd $THEIA_WORKSPACE_ROOT
+      
+```
+I used this set of tasks to install AWS CLI in my GitPod workspace.
+
+## 5. Created an Admin user, generated AWS Access Key pair and also used the AWS Cloudshell
 
 ![user](assets/user.png)
 
@@ -179,7 +195,7 @@ gp env AWS_DEFAULT_REGION=""
 ```
 
 
-## 4. Created budgets and billing alarms
+## 6. Created budgets and billing alarms
 
 I created two separate budgets in AWS - one for credit and one for actual spend. This approach helps to better manage costs and usage by allowing for more accurate forecasting of future spending and identification of areas that may require usage adjustments or resource optimization to stay within budget. In addition, I set up billing alarms to receive notifications when estimated charges exceed the specified threshold, allowing for proactive monitoring of costs and timely action to manage expenses.
 
