@@ -40,6 +40,9 @@ Attended the live stream from A-Z, but I rewatched some parts that were not so c
 
 
 
+
+
+
 **Separating business logic from the user interface** means creating two distinct layers in software development. The business logic layer contains the code that implements the application's core functionality, while the user interface layer is responsible for presenting the data and functionality to users. This separation enables more maintainable, scalable, and flexible software systems.
 
 
