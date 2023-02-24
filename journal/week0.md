@@ -5,17 +5,18 @@
 Created new AWS Account for the Bootcamp. Added the account to AWS Organization and enabled AWS IAM Identity Center (successor to AWS Single sign on)
 
 ![AWSOrg](assets/aws-org.png)
+
 ![AWSOrg](assets/aws-org2.png)
 
 Created Github repo.
 
-Created Gitpod account and integrated it with Github. Used Gifted Lane's Video for setup, and Andrew Brown's video for the Gitpod extension.
+Created Gitpod account and integrated it with Github. Used [Gifted Lane's video](https://www.youtube.com/watch?v=yh9kz9Sh1T8) for setup, and [Andrew Brown's video](https://www.youtube.com/watch?v=A6_c-hJmehs) for the Gitpod extension.
 
-Created Lucidchart account using Gifted Lane’s video.
+Created Lucidchart account using [Gifted Lane’s video](https://www.youtube.com/watch?v=bgFzBYLT3sU&list=PLBfufR7vyJJ7k25byhRXJldB5AiwgNnWv&index=10).
 
-Created Honeycomb.io account using Gifted Lane’s video.
+Created Honeycomb.io account using [Gifted Lane’s video](https://www.youtube.com/watch?v=7IwtVLfSD0o&list=PLBfufR7vyJJ7k25byhRXJldB5AiwgNnWv&index=11).
 
-Created Rollbar account using Gifted Lane’s video.
+Created Rollbar account using [Gifted Lane’s video](https://www.youtube.com/watch?v=Lpm6oAP3Fb0&list=PLBfufR7vyJJ7k25byhRXJldB5AiwgNnWv&index=12).
 
 
 
@@ -23,7 +24,7 @@ Created Rollbar account using Gifted Lane’s video.
 
 ## 1. Watch Week zero video
 
-Attended the live stream from A-Z, but I rewatched some parts that were not so clear to me. Watched Chirag’s video on Spend consideration and Ashish’s video on Security consideration.
+Attended the live stream from A-Z, but I rewatched some parts that were not so clear to me. Watched [Chirag’s video](https://www.youtube.com/watch?v=OVw3RrlP-sI&list=PLBfufR7vyJJ7k25byhRXJldB5AiwgNnWv&index=13) on Spend consideration and [Ashish’s video](https://www.youtube.com/watch?v=4EMWBYVggQI&list=PLBfufR7vyJJ7k25byhRXJldB5AiwgNnWv&index=15) on Security consideration.
 
 
 ### During Margaret’s session: **Project Management**.
@@ -148,11 +149,17 @@ The C4 model for visualising software architecture
 
 ![Conceptual diagram](assets/conceptual.png)
 
+[Conceptual diagram](https://lucid.app/lucidchart/9b053e1e-af88-42a5-a769-17596962aae7/edit?viewport_loc=-1958%2C-5817%2C1885%2C971%2C0_0&invitationId=inv_61cfbe52-50aa-4efe-af9f-e021f3230ee6![image](https://user-images.githubusercontent.com/56632471/221095937-95ffc319-bc44-4b33-b3d0-b044f20ab8ad.png)
+)
+
 
 
 ## 3. Recreated the Logical Architectual Diagram in Lucid Charts 
 
 ![Logical](assets/logical.png)
+
+[Logical diagram](https://lucid.app/lucidchart/04f2e47a-b81b-425f-9209-4998a751a7fe/edit?viewport_loc=-91%2C-92%2C2384%2C1302%2C0_0&invitationId=inv_d2034d64-9d4c-4d91-8906-339a7a08f1f7![image](https://user-images.githubusercontent.com/56632471/221096378-2bfab130-3f4f-4d81-8c07-04d9d4185ebf.png)
+)
 
 I placed the CDN in front of the load balancer to help improve the performance and availability of a web application by allowing the CDN to serve cached static content directly to users, reducing the load on the load balancer and the origin server. This can improve the response time and reduce the latency for users accessing the static content, resulting in a better user experience. Additionally, the CDN can provide additional security benefits, such as protection against DDoS attacks and other security threats, by filtering out malicious traffic before it reaches the load balancer or origin server.
 
@@ -174,6 +181,7 @@ gp env AWS_DEFAULT_REGION=""
 
 ## 4. Created budgets and billing alarms
 
-Created separate budgets for credit and actual spend: Because having two budgets can help you more accurately forecast your future spending, as well as identify any areas where you may need to adjust your usage or optimize your resources to stay within budget. And I created the billing alarms to get notified when as estimated charges exceed the threshold.
+I created two separate budgets in AWS - one for credit and one for actual spend. This approach helps to better manage costs and usage by allowing for more accurate forecasting of future spending and identification of areas that may require usage adjustments or resource optimization to stay within budget. In addition, I set up billing alarms to receive notifications when estimated charges exceed the specified threshold, allowing for proactive monitoring of costs and timely action to manage expenses.
 
 ![budget](assets/budget.png)
+
