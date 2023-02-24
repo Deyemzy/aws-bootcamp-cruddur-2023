@@ -4,10 +4,17 @@
 
 Created new AWS Account for the Bootcamp. Added the account to AWS Organization and enabled AWS IAM Identity Center (successor to AWS Single sign on)
 
-Created Github repo. 
+![AWSOrg](assets/aws-org.png)
+![AWSOrg](assets/aws-org2.png)
+
+Created Github repo.
+
 Created Gitpod account and integrated it with Github. Used Gifted Lane's Video for setup, and Andrew Brown's video for the Gitpod extension.
+
 Created Lucidchart account using Gifted Lane’s video.
+
 Created Honeycomb.io account using Gifted Lane’s video.
+
 Created Rollbar account using Gifted Lane’s video.
 
 
@@ -18,8 +25,10 @@ Created Rollbar account using Gifted Lane’s video.
 
 Attended the live stream from A-Z, but I rewatched some parts that were not so clear to me. Watched Chirag’s video on Spend consideration and Ashish’s video on Security consideration.
 
+
 ### During Margaret’s session: **Project Management**.
 
+![Microservices](assets/micro.png)
 
 **Microservices** and **monolithic** architectures are two common approaches to building complex software systems. In an AWS environment, there are several advantages to using a microservices architecture over a monolithic architecture:
 
@@ -42,11 +51,15 @@ Attended the live stream from A-Z, but I rewatched some parts that were not so c
 
 
 
-
+![Application Layer](assets/applayer.png)
 **Separating business logic from the user interface** means creating two distinct layers in software development. The business logic layer contains the code that implements the application's core functionality, while the user interface layer is responsible for presenting the data and functionality to users. This separation enables more maintainable, scalable, and flexible software systems.
 
 
-**Iron triangle**: 
+
+**Iron Triangles**
+
+![Iron Trangles](assets/irontriangle.png)
+
 The Iron Triangle is a concept in project management that represents the three key constraints that project managers must balance in order to successfully deliver a project. These constraints are:
 
 1. Time: the amount of time available to complete the project.
@@ -54,6 +67,7 @@ The Iron Triangle is a concept in project management that represents the three k
 3. Scope: the goals, requirements, functionality and features of the project.
 
 The Iron Triangle is so named because the three constraints are interdependent, meaning that changes to one constraint will impact the other two. For example, increasing the scope of a project may require more time and resources, which could increase the cost. Alternatively, reducing the budget or timeline of a project may require reducing the scope of the project.
+
 
 ### During Chris’ session: **Architecting your Cloud**
 
@@ -132,22 +146,22 @@ The C4 model for visualising software architecture
 * Components
 * Code
 
-
+![Conceptual diagram](assets/conceptual.png)
 
 
 
 ## 3. Recreated the Logical Architectual Diagram in Lucid Charts 
 
-
-
-
+![Logical](assets/logical.png)
 
 I placed the CDN in front of the load balancer to help improve the performance and availability of a web application by allowing the CDN to serve cached static content directly to users, reducing the load on the load balancer and the origin server. This can improve the response time and reduce the latency for users accessing the static content, resulting in a better user experience. Additionally, the CDN can provide additional security benefits, such as protection against DDoS attacks and other security threats, by filtering out malicious traffic before it reaches the load balancer or origin server.
 
 
 ## Created an Admin user, generated AWS Access Key pair and also used the AWS Cloudshell
 
+![user](assets/user.png)
 
+![cloudshell](assets/cloudshell.png)
 
 Generated AWS Access Key/Secret pair for the cruddur-admin, which can be used to authenticate and access AWS resources programmatically. To enable persistent storage of these credentials for reuse, we added Gitpod variables and set them to the generated Access Key/Secret pair using the appropriate commands
 
@@ -161,3 +175,5 @@ gp env AWS_DEFAULT_REGION=""
 ## 4. Created budgets and billing alarms
 
 Created separate budgets for credit and actual spend: Because having two budgets can help you more accurately forecast your future spending, as well as identify any areas where you may need to adjust your usage or optimize your resources to stay within budget. And I created the billing alarms to get notified when as estimated charges exceed the threshold.
+
+![budget](assets/budget.png)
