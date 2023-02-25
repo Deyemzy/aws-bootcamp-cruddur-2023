@@ -223,7 +223,7 @@ This is the practice of protecting your applications hosted on computer services
 * Document and review security policies and procedures regularly.
 
 
-### Using Snyk
+### Using [Snyk](https://snyk.io/)
 A popular open-source security tool that is used to scan and identify vulnerabilities in software dependencies, including container images, package managers, and code repositories. 
 
 I integrated Snyk with my public GitHub repository, which allowed for automatic vulnerability scanning and provided remediation advice for any identified security issues.
