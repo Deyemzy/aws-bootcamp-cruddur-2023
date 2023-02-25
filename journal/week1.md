@@ -1,6 +1,7 @@
 # Week 1 — App Containerization
 
-
+![Docker](assets/virtualmachines-vs-containers-100727624-orig.webp)
+[Source](https://images.idgesg.net/images/article/2017/06/virtualmachines-vs-containers-100727624-orig.jpg?auto=webp&quality=85,70)
 
 ## Containerized backend
 
