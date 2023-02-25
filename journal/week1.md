@@ -5,6 +5,8 @@
 
 ## Containerized backend
 
+![Dockerfile](assets/dockerfile.png)
+
 #### Added a docker to the ```backend-flask/```
  
 This Dockerfile sets up a container that can be used to run a Python Flask web application, with the necessary dependencies installed and the Flask development server running.
