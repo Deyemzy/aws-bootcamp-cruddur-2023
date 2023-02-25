@@ -173,3 +173,59 @@ networks:
 ```
 
 This docker-compose.yml file defines a web application stack with two services, backend-flask and frontend-react-js, that communicate with each other over a network bridge. The services are built from Docker images defined in separate Dockerfiles, and the local directories for each service are mounted into the corresponding containers.
+
+
+
+## Container Security
+
+This is the practice of protecting your applications hosted on computer services like Containers. Common examples of applications can be Single Page Applications (SPAs), Microservices, APIs etc.
+
+### Components and best practices.
+
+**Docker and host configuration**:
+ * Docker daemon & containers should run in non-root user mode
+ * Use the latest version of Docker and apply security patches regularly.
+ * Use a minimal operating system for the host.Disable all services that are not required.
+ * Use firewalls to limit incoming and outgoing traffic.
+ * Use container orchestration tools to manage containers and enforce security policies.
+
+#### Securing images:
+* Scan container images for vulnerabilities and malware.
+* Verify image integrity and ensure images come from a trusted source.
+* Remove unnecessary components and services from images.
+* Use minimal and trusted base images.
+
+#### Secret management:
+* Use a secure secret store to manage secrets, such as Snyk, HashiCorp Vault, AWS Secrets Manager etc
+* Use environment variables to inject secrets into containers at runtime.
+* Store secrets in encrypted format.
+
+#### Application security:
+* Use secure coding practices to write secure applications.
+* Use input validation and sanitization to prevent injection attacks.
+* Implement role-based access control and authentication.
+* Harden applications by configuring them to run in read-only mode, with minimal privileges.
+
+#### Data security:
+* Use encryption to protect sensitive data.
+* Use access control mechanisms to ensure that only authorized users can access data.
+* Backup and restore data regularly.
+* Use secure communication channels to transmit data.
+
+#### Monitoring and logging:
+* Use logging frameworks to capture container logs and application events.
+* Use monitoring tools to detect abnormal activity and security incidents.
+* Analyze logs regularly to identify security incidents and system errors.
+
+#### Compliance framework:
+* Follow security guidelines and best practices, such as CIS Docker Benchmark or NIST Cybersecurity Framework.
+* Use tools to automate compliance checks and audits.
+* Document and review security policies and procedures regularly.
+
+
+### Using Snyk
+A popular open-source security tool that is used to scan and identify vulnerabilities in software dependencies, including container images, package managers, and code repositories. 
+
+I integrated Snyk with my public GitHub repository, which allowed for automatic vulnerability scanning and provided remediation advice for any identified security issues.
+
+![image](assets/snyk.png)
