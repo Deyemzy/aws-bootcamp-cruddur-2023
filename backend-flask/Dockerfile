@@ -26,4 +26,10 @@ EXPOSE ${PORT}
 
 # CMD (Command)
 # python3 -m flask run --host=0.0.0.0 --port=4567
-CMD [ "python3", "-m" , "flask", "run", "--host=0.0.0.0", "--port=4567"]
+#CMD [ "python3", "-m" , "flask", "run", "--host=0.0.0.0", "--port=4567"]
+
+
+# This will call the external script that will run the python3 -m flask run command
+ENTRYPOINT ["/backend-flask/entrypoint.sh"]
+
+
