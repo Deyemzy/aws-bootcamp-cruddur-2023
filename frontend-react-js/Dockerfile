@@ -9,7 +9,7 @@ EXPOSE ${PORT}
 #CMD ["npm", "start"]
 
 # This will copy startup script and make it executable
-COPY start.sh /entrypoint.sh
+COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
 # This will call the external script
