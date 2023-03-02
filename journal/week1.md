@@ -229,3 +229,180 @@ A popular open-source security tool that is used to scan and identify vulnerabil
 I integrated Snyk with my public GitHub repository, which allowed for automatic vulnerability scanning and provided remediation advice for any identified security issues.
 
 ![image](assets/snyk.png)
+
+
+
+
+## Notification Endpoint
+
+#### Created new notifications endpoint
+
+![Notification](assets/endpoint.png)
+
+#### Implemented frontend notifications page
+
+![page](assets/page.png)
+
+
+
+
+## Adding DynamoDB Local and Postgres
+
+To make it easier to use Postgres and DynamoDB local in future labs, I have integrated them into my existing docker-compose file. I added container definitions for each service and made sure they can be referenced externally. This way, I can use these services without having to set them up again in future labs, saving time and effort.
+
+```
+services:
+  dynamodb-local:
+    # https://stackoverflow.com/questions/67533058/persist-local-dynamodb-data-in-volumes-lack-permission-unable-to-open-databa
+    # We needed to add user:root to get this working.
+    user: root
+    command: "-jar DynamoDBLocal.jar -sharedDb -dbPath ./data"
+    image: "amazon/dynamodb-local:latest"
+    container_name: dynamodb-local
+    ports:
+      - "8000:8000"
+    volumes:
+      - "./docker/dynamodb:/home/dynamodblocal/data"
+    working_dir: /home/dynamodblocal
+  db:
+    image: postgres:13-alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+    ports:
+      - '5432:5432'
+    volumes: 
+      - db:/var/lib/postgresql/data
+networks: 
+  internal-network:
+    driver: bridge
+    name: cruddur
+
+volumes:
+  db:
+    driver: local
+```
+
+
+# Homework challenges
+
+## Dockerfile best practices
+
+I read this [page](https://docs.docker.com/develop/develop-images/dockerfile_best-practices/) in the docker documentation and also watched this [Tech with Nana](https://www.youtube.com/watch?v=8vXoMqWgbQQ)’s video to know and understand dockerfiles best practices.
+
+
+## Running the dockerfile CMD as an external script
+
+#### For the backend:
+
+In a Dockerfile, the ```”CMD”``` instruction specifies the command that is to be executed when the container is started. In this case, the ```”CMD”```  instruction is running the Flask web application by running the command ```python3 -m flask run --host=0.0.0.0 --port=4567```.
+
+To run the ```”CMD”```  of the Dockerfile as an external script, I replaced the current ```”CMD”```  instruction with a ```”ENTRYPOINT”``` instruction that calls the external script. 
+
+```
+FROM python:3.10-slim-buster
+
+# Inside Container
+# make a new folder inside container
+WORKDIR /backend-flask
+
+# Outside Container -> Inside Container
+# this contains the libraries want to install to run the app
+COPY requirements.txt requirements.txt
+
+# Inside Container
+# Install the python libraries used for the app
+RUN pip3 install -r requirements.txt
+
+# Outside Container -> Inside Container
+# . means everything in the current directory
+# first period . - /backend-flask (outside container)
+# second period . /backend-flask (inside container)
+COPY . .
+
+# Set Enviroment Variables (Env Vars)
+# Inside Container and wil remain set when the container is running
+ENV FLASK_ENV=development
+
+EXPOSE ${PORT}
+
+# Permission to execute entrypoint.sh
+RUN chmod +x /backend-flask/entrypoint.sh
+
+# This will call the external script that will run the python3 -m flask run command
+ENTRYPOINT ["/backend-flask/entrypoint.sh"]
+```
+
+Then, I created the  ```entrypoint.sh``` external script in the same directory as the backend Dockerfile.
+
+```
+#!/bin/bash
+# Run the python3 -m flask run command
+python3 -m flask run --host=0.0.0.0 --port=4567
+```
+
+#### For the Frontend:
+
+Similarly,
+
+```
+FROM node:16.18
+
+ENV PORT=3000
+
+COPY . /frontend-react-js
+WORKDIR /frontend-react-js
+RUN npm install
+EXPOSE ${PORT}
+
+# This will copy startup script and make it executable
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
+# This will call the external script
+ENTRYPOINT ["/entrypoint.sh"]
+```
+Then, I created the  ```entrypoint.sh``` external script in the same directory as the frontend Dockerfile.
+```
+#!/bin/sh
+npm start
+```
+
+
+
+## Pushed and tagged image to docker hub
+
+#### Backend docker build and push
+
+Build
+
+``` docker build -t deyemzy/backend-flask:1.0 .```
+
+Push
+
+``` docker push deyemzy/backend-flask:1.0 ```
+
+![push](assets/backendpush.png)
+
+
+
+#### Frontend docker build and push
+
+Build
+
+``` docker build -t deyemzy/frontend-react-js:1.0 .```
+
+Push
+
+``` docker push deyemzy/frontend-react-js:1.0 ```
+
+![push](assets/frontendpush.png)
+
+
+#### Images in docker hub
+
+![image](assets/images.png)
+
+
+## Launching an EC2 instance that has docker installed
