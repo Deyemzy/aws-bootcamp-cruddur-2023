@@ -410,16 +410,30 @@ Push
 
 Launched the EC2 instance in the default VPC, created a key pair and provisioned it with an Amazon Machine Image (AMI) that has Docker pre-installed. To allow SSH access to the instance, I modified the security group rules to allow incoming traffic on port 22. Additionally, I also modified the security group rules to allow incoming traffic on port 4567 for the backend and port 3000 for the frontend from the internet.
 
+
 [Keypair](assets/keypair.png)
+
+![Keypair](assets/keypair.png)
+
 
 [Security group rules](assets/sg.png)
 
+![Security group rules](assets/sg.png)
+
+
 [EC2 connect](assets/ec2.png)
+
+![EC2 connect](assets/ec2.png)
+
 
 [Frontend](assets/ec2f.png)
 
+![Frontend](assets/ec2f.png)
 
-[Backend](assets/ec2b.png) I have no idea why this is throwing **TypeError**
+
+[Backend](assets/ec2b.png)
+
+![Backend](assets/ec2b.png) I have no idea why this is throwing **TypeError**
 
 
 ## Dockerfile multi-stage build
