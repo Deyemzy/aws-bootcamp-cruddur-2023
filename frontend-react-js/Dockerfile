@@ -4,9 +4,8 @@ ENV PORT=3000
 
 COPY . /frontend-react-js
 WORKDIR /frontend-react-js
-#RUN npm install
+RUN npm install
 EXPOSE ${PORT}
-#CMD ["npm", "start"]
 
 # This will copy startup script and make it executable
 COPY entrypoint.sh /entrypoint.sh
