@@ -12,6 +12,8 @@ COPY requirements.txt requirements.txt
 # Install the python libraries used for the app
 RUN pip3 install -r requirements.txt
 
+RUN apt update && apt install -y curl
+
 # Outside Container -> Inside Container
 # . means everything in the current directory
 # first period . - /backend-flask (outside container)
@@ -32,5 +34,6 @@ RUN chmod +x /backend-flask/entrypoint.sh
 
 # This will call the external script that will run the python3 -m flask run command
 ENTRYPOINT ["/backend-flask/entrypoint.sh"]
+
 
 
