@@ -9,6 +9,13 @@ services:
       - "4567:4567"
     volumes:
       - ./backend-flask:/backend-flask
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:4567/api/activities/home"]
+      interval: 1m
+      timeout: 30s
+      retries: 3
+      start_period: 30s
+
   frontend-react-js:
     environment:
       REACT_APP_BACKEND_URL: "https://4567-${GITPOD_WORKSPACE_ID}.${GITPOD_WORKSPACE_CLUSTER_HOST}"
@@ -17,6 +24,13 @@ services:
       - "3000:3000"
     volumes:
       - ./frontend-react-js:/frontend-react-js
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/api/activities/home"]
+      interval: 1m
+      timeout: 30s
+      retries: 3
+      start_period: 30s
+
   dynamodb-local:
     # https://stackoverflow.com/questions/67533058/persist-local-dynamodb-data-in-volumes-lack-permission-unable-to-open-databa
     # We needed to add user:root to get this working.
