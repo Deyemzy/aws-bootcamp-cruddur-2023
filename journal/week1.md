@@ -407,3 +407,141 @@ Push
 
 
 ## Launching an EC2 instance that has docker installed
+
+Launched the EC2 instance in the default VPC, created a key pair and provisioned it with an Amazon Machine Image (AMI) that has Docker pre-installed. To allow SSH access to the instance, I modified the security group rules to allow incoming traffic on port 22. Additionally, I also modified the security group rules to allow incoming traffic on port 4567 for the backend and port 3000 for the frontend from the internet.
+
+[Keypair](assets/keypair.png)
+
+[Security group rules](assets/sg.png)
+
+[EC2 connect](assets/ec2.png)
+
+[Frontend](assets/ec2f.png)
+
+
+[Backend](assets/ec2b.png) I have no idea why this is throwing **TypeError**
+
+
+## Dockerfile multi-stage build
+
+I read docker [documentation](https://docs.docker.com/build/building/multi-stage/) and watched [Victor Facic](https://www.youtube.com/watch?v=zpkqNPwEzac)’s video and [Adrian Cantrill](https://learn.cantrill.io/courses/enrolled/1951081)’s course to understand how dockerfile multi-stage build works.
+
+Multistage build is a technique in Docker that allows you to use multiple stages to build a single Docker image. Each stage in the build process can use a different base image, and the result of each stage is a new image that can be used in the next stage. This can be useful when building images that require multiple dependencies, such as compiling source code, running tests, and packaging the final product.
+
+The main benefit of using multistage builds is that it can significantly reduce the size of your Docker image. By only including the files that are needed for each stage, you can minimize the size of the final image, which can improve performance and reduce storage costs. Additionally, multistage builds can make your Dockerfiles easier to read and maintain, as you can separate different stages of the build process into separate sections.
+
+To use multistage builds in your Dockerfiles, you need to define multiple stages using the ```FROM``` command, and you can use any base image for each stage as long as it meets the requirements for that stage of the build process. You can name each stage using the ```AS``` keyword. Once you have defined your stages, you can copy files between them using the ```COPY``` command. You can also specify which stage to use for the final image using the ```--from``` flag.
+
+#### For the backend:
+
+```
+# Stage 1: Building the application
+FROM python:3.10-slim-buster AS build
+WORKDIR /backend-flask
+COPY requirements.txt requirements.txt
+RUN pip3 install --upgrade pip
+RUN pip3 install --user --no-warn-script-location -r requirements.txt
+COPY . .
+
+# Set Enviroment Variables (Env Vars): Best Practice!!
+ENV FLASK_ENV=production
+ENV PYTHONUNBUFFERED=1
+# Running Tests
+RUN python3 -m unittest
+
+# Stage 2: Creating the final image
+FROM python:3.10-slim-buster AS final
+WORKDIR /backend-flask
+# Copying the built application from the build stage
+COPY --from=build /backend-flask /backend-flask
+# Expose port
+EXPOSE ${PORT}
+# Permission to execute entrypoint.sh
+RUN chmod +x /backend-flask/entrypoint.sh
+# This will call the external script that will run the python3 -m flask run command
+ENTRYPOINT ["/backend-flask/entrypoint.sh"]
+```
+Then built the image with:
+```
+docker build -t backend-ms-image -f Dockerfile.backend-multi-stage .
+```
+
+
+#### For the Frontend:
+
+```
+# Stage 1: Build the application
+FROM node:16.18 AS build
+
+COPY . /frontend-react-js
+WORKDIR /frontend-react-js
+RUN npm install
+RUN npm run build
+
+# Stage 2: Create the final image
+FROM node:16.18 AS final
+
+ENV PORT=3000
+
+WORKDIR /frontend-react-js
+
+# Copying the built application from the build stage
+COPY --from=build /frontend-react-js/build /frontend-react-js/build
+
+# This will copy startup script and make it executable
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
+# Expose port
+EXPOSE ${PORT}
+
+# This will call the external script
+ENTRYPOINT ["/entrypoint.sh"]
+```
+Then built the image with:
+```
+docker build -t frontend-ms-image -f Dockerfile.frontend-multi-stage .
+```
+
+The Images:
+![ms-images](assets/ms.png)
+
+
+## Healthchecks in the V3 docker compose file
+
+```
+version: "3.8"
+services:
+  backend-flask:
+    environment:
+      FRONTEND_URL: "https://3000-${GITPOD_WORKSPACE_ID}.${GITPOD_WORKSPACE_CLUSTER_HOST}"
+      BACKEND_URL: "https://4567-${GITPOD_WORKSPACE_ID}.${GITPOD_WORKSPACE_CLUSTER_HOST}"
+    build: ./backend-flask
+    ports:
+      - "4567:4567"
+    volumes:
+      - ./backend-flask:/backend-flask
+    **healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:4567/api/activities/home"]
+      interval: 1m
+      timeout: 30s
+      retries: 3
+      start_period: 30s**
+
+  frontend-react-js:
+    environment:
+      REACT_APP_BACKEND_URL: "https://4567-${GITPOD_WORKSPACE_ID}.${GITPOD_WORKSPACE_CLUSTER_HOST}"
+    build: ./frontend-react-js
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend-react-js:/frontend-react-js
+    **healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/api/activities/home"]
+      interval: 1m
+      timeout: 30s
+      retries: 3
+      start_period: 30s**
+```
+
+![health](assets/health.png)
