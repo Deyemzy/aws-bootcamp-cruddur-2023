@@ -191,15 +191,6 @@ Created a sampling rule. Sampling rules determine which requests are traced and 
 aws xray create-sampling-rule --cli-input-json file://aws/json/xray.json
 ```
 
-[Github aws-xray-daemon](https://github.com/aws/aws-xray-daemon)
-[X-Ray Docker Compose example](https://github.com/marjamis/xray/blob/master/docker-compose.yml)
-
-
-```sh
- wget https://s3.us-east-2.amazonaws.com/aws-xray-assets.us-east-2/xray-daemon/aws-xray-daemon-3.x.deb
- sudo dpkg -i **.deb
- ```
-
 Added Deamon Service to Docker Compose
 
 ```yml
