@@ -213,3 +213,134 @@ Added two env vars to the backend-flask in the `docker-compose.yml` file
       AWS_XRAY_DAEMON_ADDRESS: "xray-daemon:2000"
 ```
 
+```
+![Xray](assets/xr.png) 
+
+
+
+
+
+
+
+### Cloudwatch
+
+In my `requirements.txt` file, I added the following packages to instrument the app with Cloudwatch
+```
+watchtower
+```
+Then I installed the packages:
+
+```sh
+pip install -r requirements.txt
+```
+
+In the `app.py` file, I added the code below to configure python logger to use Cloudwatch as the logging destination.
+```
+import watchtower
+import logging
+from time import strftime
+```
+
+```py
+# Configuring Logger to Use CloudWatch
+LOGGER = logging.getLogger(__name__)
+LOGGER.setLevel(logging.DEBUG)
+console_handler = logging.StreamHandler()
+cw_handler = watchtower.CloudWatchLogHandler(log_group='cruddur')
+LOGGER.addHandler(console_handler)
+LOGGER.addHandler(cw_handler)
+LOGGER.info("test log")
+```
+
+```py
+@app.after_request
+def after_request(response):
+    timestamp = strftime('[%Y-%b-%d %H:%M]')
+    LOGGER.error('%s %s %s %s %s %s', timestamp, request.remote_addr, request.method, request.scheme, request.full_path, response.status)
+    return response
+```
+
+Logging
+```py
+logger.info("HomeActivities")
+```
+
+Set the env var in the backend-flask for `docker-compose.yml`
+
+```yml
+      AWS_DEFAULT_REGION: "${AWS_DEFAULT_REGION}"
+      AWS_ACCESS_KEY_ID: "${AWS_ACCESS_KEY_ID}"
+      AWS_SECRET_ACCESS_KEY: "${AWS_SECRET_ACCESS_KEY}"
+```
+![CloudWatch](assets/cw.png)
+
+
+
+ 
+
+### Rollbar
+Rollbar is a cloud-based error monitoring and debugging service that helps software teams identify and fix bugs and errors in their code. It offers real-time visibility into errors, exceptions, and crashes across the entire stack, from backend servers to frontend applications. Rollbar integrates with a wide range of programming languages and platforms, including Python, Ruby, JavaScript, and PHP.
+
+https://rollbar.com/
+
+Created a new project in Rollbar called `Cruddur`
+
+Added this to `requirements.txt`
+
+```
+blinker
+rollbar
+```
+
+```sh
+pip install -r requirements.txt
+```
+
+Set the access token
+
+```sh
+export ROLLBAR_ACCESS_TOKEN=""
+gp env ROLLBAR_ACCESS_TOKEN=""
+```
+
+Added to `docker-compose.yml` backend-flask 
+
+```yml
+ROLLBAR_ACCESS_TOKEN: "${ROLLBAR_ACCESS_TOKEN}"
+```
+
+Imported for Rollbar
+
+```py
+import rollbar
+import rollbar.contrib.flask
+from flask import got_request_exception
+```
+
+```py
+rollbar_access_token = os.getenv('ROLLBAR_ACCESS_TOKEN')
+@app.before_first_request
+def init_rollbar():
+    """init rollbar module"""
+    rollbar.init(
+        # access token
+        rollbar_access_token,
+        # environment name
+        'production',
+        # server root directory, makes tracebacks prettier
+        root=os.path.dirname(os.path.realpath(__file__)),
+        # flask already sets up logging
+        allow_logging_basic_config=False)
+
+    # send exceptions from `app` to rollbar, using flask's signal system.
+    got_request_exception.connect(rollbar.contrib.flask.report_exception, app)
+```
+
+Added an endpoint to `app.py` for testing rollbar
+
+```py
+@app.route('/rollbar/test')
+def rollbar_test():
+    rollbar.report_message('Hello World!', 'warning')
+    return "Hello World!"
+```
