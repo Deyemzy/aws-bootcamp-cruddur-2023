@@ -1,7 +1,7 @@
 import './SignupPage.css';
 import React from "react";
 import {ReactComponent as Logo} from '../components/svg/logo.svg';
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 // [TODO] Authenication
 import { Auth } from 'aws-amplify';
@@ -14,6 +14,12 @@ export default function SignupPage() {
   const [username, setUsername] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [errors, setErrors] = React.useState('');
+
+  let params = useParams()
+  console.log(`params from the url ${params}`);
+
+  // console.log(window.location.href.indexOf("="));
+  console.log(`using window ${window.location.href}`)
 
   const onsubmit = async (event) => {
     event.preventDefault();

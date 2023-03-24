@@ -14,11 +14,12 @@ export default function ConfirmationPage() {
 
   const params = useParams();
 
+
+  let slicedEmail = window.location.href.substring(window.location.href.indexOf("email"))
+  let finalEmail = slicedEmail.substring(slicedEmail.indexOf("=")+1)
+
   const code_onchange = (event) => {
     setCode(event.target.value);
-  }
-  const email_onchange = (event) => {
-    setEmail(event.target.value);
   }
 
   const resend_code = async (event) => {
@@ -67,9 +68,7 @@ export default function ConfirmationPage() {
   }
 
   React.useEffect(()=>{
-    if (params.email) {
-      setEmail(params.email)
-    }
+    setEmail(finalEmail)
   }, [])
 
   return (
@@ -89,7 +88,6 @@ export default function ConfirmationPage() {
               <input
                 type="text"
                 value={email}
-                onChange={email_onchange} 
               />
             </div>
             <div className='field text_field code'>
