@@ -1,7 +1,7 @@
 import './SignupPage.css';
 import React from "react";
 import {ReactComponent as Logo} from '../components/svg/logo.svg';
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 // [TODO] Authenication
 import { Auth } from 'aws-amplify';
@@ -15,30 +15,27 @@ export default function SignupPage() {
   const [password, setPassword] = React.useState('');
   const [errors, setErrors] = React.useState('');
 
-  let params = useParams()
-  console.log(`params from the url ${params}`);
-
-  // console.log(window.location.href.indexOf("="));
-  console.log(`using window ${window.location.href}`)
-
   const onsubmit = async (event) => {
     event.preventDefault();
     setErrors('')
+    console.log('username',username)
+    console.log('email',email)
+    console.log('name',name)
     try {
-        const { user } = await Auth.signUp({
-          username: email,
-          password: password,
-          attributes: {
-              name: name,
-              email: email,
-              preferred_username: username,
-          },
-          autoSignIn: { // optional - enables auto sign in after user is confirmed
-              enabled: true,
-          }
-        });
-        console.log(user);
-        window.location.href = `/confirm?email=${email}`
+      const { user } = await Auth.signUp({
+        username: email,
+        password: password,
+        attributes: {
+          name: name,
+          email: email,
+          preferred_username: username,
+        },
+        autoSignIn: { // optional - enables auto sign in after user is confirmed
+          enabled: true,
+        }
+      });
+      console.log(user);
+      window.location.href = `/confirm?email=${email}`
     } catch (error) {
         console.log(error);
         setErrors(error.message)

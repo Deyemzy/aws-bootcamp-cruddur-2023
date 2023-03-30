@@ -29,11 +29,11 @@ export default function RecoverPage() {
       .then((data) => setFormState('success'))
       .catch((err) => setErrors(err.message) );
     } else {
-      setErrors('Passwords do not match')
+      setCognitoErrors('Passwords do not match')
     }
     return false
   }
-  
+
   const username_onchange = (event) => {
     setUsername(event.target.value);
   }
